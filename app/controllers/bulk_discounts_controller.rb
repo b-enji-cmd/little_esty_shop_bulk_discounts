@@ -4,6 +4,7 @@ class BulkDiscountsController < ApplicationController
   end
 
   def show
+  	@merchant = Merchant.find(params[:merchant_id])
   	@discount = BulkDiscount.find(params[:id])
   end
 
@@ -14,10 +15,23 @@ class BulkDiscountsController < ApplicationController
   end
 
   def edit
+  	@merchant = Merchant.find(params[:merchant_id])
+  	@discount = BulkDiscount.find(params[:id])
   end
 
   def new
   	BulkDiscount.new
+  end
+
+  def update
+  	@merchant = Merchant.find(params[:merchant_id])
+  	@discount = BulkDiscount.find(params[:id])
+  	if @discount.update(bulk_discount_params)
+  		redirect_to merchant_bulk_discount_path(@merchant.id, @discount.id)
+  	else
+  		flash.now[:notice] = "Error updating discount, please fill in all fields correctly"
+  		render :edit
+  	end
   end
 
   def create
