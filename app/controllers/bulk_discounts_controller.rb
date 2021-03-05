@@ -1,7 +1,6 @@
 class BulkDiscountsController < ApplicationController
   def index
   	@merchant = Merchant.find(params[:merchant_id])
-  	binding.pry
   end
 
   def show
@@ -20,12 +19,11 @@ class BulkDiscountsController < ApplicationController
   def create
   	@merchant = Merchant.find(params[:merchant_id])
   	@discount = BulkDiscount.new(bulk_discount_params)
-    binding.pry
   	if @discount.save
-  		redirect_to merchant_bulk_discount_path(@merchant)
+  		redirect_to merchant_bulk_discounts_path(@merchant.id)
   	else
-  		flash[:notice] = 'Error creating discount, please fill in all fields correctly'
   		render :new
+  		flash.alert = 'Error creating discount, please fill in all fields correctly'
   	end
   end
 
