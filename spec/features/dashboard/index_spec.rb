@@ -58,7 +58,6 @@ RSpec.describe 'merchant dashboard' do
     click_on "Create"
     visit merchant_dashboard_index_path(@merchant1)
     click_on("Discounts")
-
     within("#discounts") do
       expect(page).to have_content(10)
       expect(page).to have_content(15)
