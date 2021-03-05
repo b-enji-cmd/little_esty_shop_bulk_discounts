@@ -64,6 +64,16 @@ RSpec.describe 'merchant dashboard' do
     end
   end
 
+  it "has a link to a discount show page" do
+    @discount_1 = BulkDiscount.create!(percentage_discount: 15,quantity_threshold: 10,merchant_id: @merchant1.id )
+    click_link("Discounts")
+    within("#discount-#{@discount_1.id}") do
+      expect(page).to have_link("#{@discount_1.id}")
+    end
+    click_link("#{@discount_1.id}")
+    expect(current_path).to eq(merchant_bulk_discount_path(@merchant1.id, @discount_1.id))
+  end
+
   
 
   it 'shows the merchant name' do
