@@ -64,6 +64,8 @@ RSpec.describe 'merchant dashboard' do
     end
   end
 
+  
+
   it 'shows the merchant name' do
     expect(page).to have_content(@merchant1.name)
   end
