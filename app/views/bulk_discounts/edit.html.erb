@@ -1,0 +1,10 @@
+<h1>Edit <%= @discount.id %></h1>
+<%=  render partial: 'form', locals: {
+                                        model: @bulk_discount,
+                                        path: merchant_bulk_discount_path(@merchant.id, @discount.id),
+                                        method: "patch",
+                                        button_text: "Update",
+                                        quan_value: @discount.quantity_threshold,
+                                        per_value: @discount.percentage_discount } %>
+
+ 
