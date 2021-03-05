@@ -1,0 +1,9 @@
+<h1>Create a Discount</h1>
+
+<%=  render partial: 'form', locals: {
+                                        model: @bulk_discount,
+                                        path: merchant_bulk_discounts_path,
+                                        method: "post",
+                                        button_text: "Create" } %>
+
+ 
