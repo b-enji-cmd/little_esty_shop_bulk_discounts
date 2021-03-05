@@ -3,7 +3,7 @@
 	<section id="discounts">
 		<% @merchant.bulk_discounts.each do |discount|%>
 		<section id = "discount-<%= discount.id %>">
-			<%= discount.id %>
+			<%= link_to "#{discount.id}",  merchant_bulk_discount_path(@merchant.id, discount.id) , method: :get %>
 			<%= discount.percentage_discount %>
 			<%= discount.quantity_threshold %>
 		</section>
