@@ -1,0 +1,8 @@
+<%= form_with model: model, url: path, method: method do |f| %>
+  <%= f.label "Quantity Threshold" %>
+  <%= f.text_field "quantity_threshold", required: true %>
+  <%= f.label "Percentage Discount" %>
+  <%= f.text_field "percentage_discount", required: true %>
+
+  <%= f.submit button_text %>
+<% end %>
