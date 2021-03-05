@@ -49,6 +49,13 @@ RSpec.describe 'merchant dashboard' do
     end
   end
 
+  it "shows a link to create a new discount" do
+    expect(page).to have_link("Create Discount")
+    click_link("Create Discount")
+    expect(current_path).to eq(new_merchant_bulk_discount)
+    
+  end
+
   it 'shows the merchant name' do
     expect(page).to have_content(@merchant1.name)
   end
