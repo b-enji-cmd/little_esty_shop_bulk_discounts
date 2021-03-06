@@ -1,10 +1,14 @@
 class BulkDiscountsController < ApplicationController
+	before_action :parse_json, :find_merchant
+
+	def parse_json
+		@holidays = HolidayService.holidays
+	end
+
   def index
-  	@merchant = Merchant.find(params[:merchant_id])
   end
 
   def show
-  	@merchant = Merchant.find(params[:merchant_id])
   	@discount = BulkDiscount.find(params[:id])
   end
 
@@ -15,7 +19,6 @@ class BulkDiscountsController < ApplicationController
   end
 
   def edit
-  	@merchant = Merchant.find(params[:merchant_id])
   	@discount = BulkDiscount.find(params[:id])
   end
 
@@ -24,7 +27,6 @@ class BulkDiscountsController < ApplicationController
   end
 
   def update
-  	@merchant = Merchant.find(params[:merchant_id])
   	@discount = BulkDiscount.find(params[:id])
   	if @discount.update(bulk_discount_params)
   		redirect_to merchant_bulk_discount_path(@merchant.id, @discount.id)
@@ -35,7 +37,7 @@ class BulkDiscountsController < ApplicationController
   end
 
   def create
-  	@merchant = Merchant.find(params[:merchant_id])
+  	
   	discount = BulkDiscount.new(bulk_discount_params)
   	if discount.save
   		redirect_to merchant_bulk_discounts_path(@merchant.id)
@@ -46,6 +48,10 @@ class BulkDiscountsController < ApplicationController
   end
 
   private
+
+  def find_merchant
+  	@merchant = Merchant.find(params[:merchant_id])
+  end
 
   def bulk_discount_params
   	params.permit(:quantity_threshold, :percentage_discount, :merchant_id)
