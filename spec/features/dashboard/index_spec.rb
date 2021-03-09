@@ -36,6 +36,16 @@ RSpec.describe 'merchant dashboard' do
     @transaction5 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice_6.id)
     @transaction6 = Transaction.create!(credit_card_number: 879799, result: 1, invoice_id: @invoice_7.id)
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_2.id)
+    json_response = File.read('spec/fixtures/holidays.json')
+      stub_request(:get, "https://date.nager.at/Api/v2/NextPublicHolidays/us").
+         with(
+           headers: {
+          'Accept'=>'*/*',
+          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'=>'Faraday v1.3.0'
+           }).
+         to_return(status: 200, body: json_response, headers: {})
+
 
     visit merchant_dashboard_index_path(@merchant1)
   end
@@ -64,6 +74,18 @@ RSpec.describe 'merchant dashboard' do
     end
   end
 
+  it "cannot create bad discount" do
+
+    expect(page).to have_link("Create Discount")
+    click_link("Create Discount")
+
+    fill_in "quantity_threshold", with: ""
+    fill_in "percentage_discount", with: ""
+
+    click_on "Create"
+    expect(page).to have_content("Error creating discount, please fill in all fields correctly")
+  end
+
   it "has a link to a discount show page" do
     @discount_1 = BulkDiscount.create!(percentage_discount: 15,quantity_threshold: 10,merchant_id: @merchant1.id )
     click_link("Discounts")
@@ -74,7 +96,7 @@ RSpec.describe 'merchant dashboard' do
     expect(current_path).to eq(merchant_bulk_discount_path(@merchant1.id, @discount_1.id))
   end
 
-  
+
 
   it 'shows the merchant name' do
     expect(page).to have_content(@merchant1.name)

@@ -5,6 +5,16 @@ RSpec.describe 'bulk discount show' do
     @merchant1 = Merchant.create!(name: 'Hair Care')
     @discount_1 = BulkDiscount.create!(percentage_discount: 15,quantity_threshold: 10,merchant_id: @merchant1.id )
 
+    json_response = File.read('spec/fixtures/holidays.json')
+      stub_request(:get, "https://date.nager.at/Api/v2/NextPublicHolidays/us").
+         with(
+           headers: {
+          'Accept'=>'*/*',
+          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent'=>'Faraday v1.3.0'
+           }).
+         to_return(status: 200, body: json_response, headers: {})
+
     visit merchant_dashboard_index_path(@merchant1)
   end
 
