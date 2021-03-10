@@ -22,7 +22,7 @@
     <li><a href="#contributing">Contributing</a></li>
   </ol>
 </details>
-# Bulk Discounts
+
 ### About The Project
 ## Background and Description
 This project is an extension of the Little Esty Shop group project. You will add functionality for merchants to create bulk discounts for their items. A “bulk discount” is a discount based on the quantity of items the customer is buying, for example “20% off orders of 10 or more items”.
@@ -42,7 +42,7 @@ This project is an extension of the Little Esty Shop group project. You will add
 
 
 ## Database Design Document
-![Database Design Document](https://i.imgur.com/71d6gUU.png)
+![Database Design Document](https://imgur.com/4B6qZD0.png)
 
 
 <!-- GETTING STARTED -->
