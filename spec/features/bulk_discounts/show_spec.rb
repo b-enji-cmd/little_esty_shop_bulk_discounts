@@ -21,9 +21,30 @@ RSpec.describe 'bulk discount show' do
   it "can see the quantity threshold and percantage discount" do
     click_on ("Discounts")
     click_on("#{@discount_1.id}")
+
     within("#discount-#{@discount_1.id}") do
         expect(page).to have_content(15)
         expect(page).to have_content(10)
+    end
+  end
+
+  it "can edit the discount" do
+    click_on ("Discounts")
+    click_on("#{@discount_1.id}")
+
+    within("#discount-#{@discount_1.id}") do
+      expect(page).to have_link("Edit")
+      click_on "Edit"
+    end
+
+    expect(current_path).to eq edit_merchant_bulk_discount_path(@merchant1, @discount_1)
+    fill_in "quantity_threshold", with: 10
+    fill_in "percentage_discount", with: 13
+    click_on "Update"
+
+    within("#discount-#{@discount_1.id}") do
+           expect(page).to have_content(10)
+           expect(page).to have_content(13)
     end
   end
 

@@ -74,6 +74,17 @@ RSpec.describe 'merchant dashboard' do
     end
   end
 
+  it "can delete a discount" do
+    @discount_1 = BulkDiscount.create!(percentage_discount: 15,quantity_threshold: 10,merchant_id: @merchant1.id )
+    click_link("Discounts")
+    within("#discount-#{@discount_1.id}") do
+      expect(page).to have_link("Delete")
+    end
+    click_on "Delete"
+
+    expect(page).not_to have_link("#{@discount_1.id}")
+  end
+
   it "cannot create bad discount" do
 
     expect(page).to have_link("Create Discount")

@@ -52,9 +52,7 @@ RSpec.describe 'invoices show' do
     @transaction7 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_7.id)
     @transaction8 = Transaction.create!(credit_card_number: 203942, result: 1, invoice_id: @invoice_8.id)
 
-    @discount_1 = BulkDiscount.create!(percentage_discount: 15,quantity_threshold: 5,merchant_id: @merchant1.id )
-    @discount_2 = BulkDiscount.create!(percentage_discount: 20,quantity_threshold: 10,merchant_id: @merchant1.id )
-    @discount_3 = BulkDiscount.create!(percentage_discount: 30,quantity_threshold: 15,merchant_id: @merchant1.id )
+
     json_response = File.read('spec/fixtures/holidays.json')
     stub_request(:get,'https://date.nager.at/Api/v2/NextPublicHolidays/us' ).
     to_return(status: 200, body: json_response)
@@ -101,6 +99,19 @@ RSpec.describe 'invoices show' do
       expect(page).to have_content("cancelled")
       expect(page).to_not have_content("in progress")
      end
+  end
+
+  it "displays the old revenue amount" do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+    expect(page).to have_content("Total Revenue: 162")
+    expect(page).to have_content("No Discount")
+  end
+  it "displays the discounted total revenue amount" do
+    @discount_1 = BulkDiscount.create!(percentage_discount: 15,quantity_threshold: 5,merchant_id: @merchant1.id )
+    @discount_2 = BulkDiscount.create!(percentage_discount: 20,quantity_threshold: 10,merchant_id: @merchant1.id )
+    @discount_3 = BulkDiscount.create!(percentage_discount: 30,quantity_threshold: 15,merchant_id: @merchant1.id )
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+    expect(page).to have_content("Total Revenue: 134.1")
   end
 
 end
